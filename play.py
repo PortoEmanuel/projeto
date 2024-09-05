@@ -3,13 +3,17 @@ from utils.utilits import CadastroUsuario
 
 def main():
     print('BEM VINDO AO CADASTRO DE USÚARIOS!')
-    opcao = input('Iniciar Aplicativo?? [s,n]: ')
+    opcao = input('Iniciar Aplicativo?? [s][n]: ')
     
     if opcao.lower() == 's':
+        print('-------------------------')
+        print('Iniciando o aplicativo...')
+        print('-------------------------')
         cadastro = CadastroUsuario()
         
         while True:
             print("\nMenu:")
+            print('-------------------------')
             print("1. Adicionar usuário")
             print("2. Retornar usuário")
             print("3. Listar todos os usuários")
