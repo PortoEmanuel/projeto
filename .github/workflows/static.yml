@@ -1,9 +1,8 @@
-# Implantar conteúdo estático nas páginas
 nome: Implantar conteúdo estático nas páginas
 
 sobre:
   empurrar:
-    ramos: ["main"]  # Ajuste se estiver usando uma branch diferente
+    ramos: ["main"]
   fluxo de trabalho_despacho:
 
 permissões:
@@ -29,9 +28,9 @@ empregos:
         correr: |
           mkdir -p public
           cp -r templates/* public/
-        
+      
       - nome: Adicionar .nojekyll
-        run: touch public/.nojekyll  # Cria um arquivo .nojekyll para evitar a construção com Jekyll
+        run: touch public/.nojekyll
 
       - nome: Configurar páginas
         usos: actions/configure-pages@v5
