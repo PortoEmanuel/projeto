@@ -1,9 +1,9 @@
-import sqlite3
+import sqlite3 # Importa a biblioteca SQLite para manipulação de banco de dados.
 
-class CadastroUsuario:
-    def __init__(self, db_name='usuarios.db'):
-        self.db_name = db_name
-        self._criar_tabela()
+class CadastroUsuario: #  Define a classe CadastroUsuario.
+    def __init__(self, db_name='usuarios.db'): #  O método construtor que inicializa a classe.
+        self.db_name = db_name # Define o nome do banco de dados (padrão é 'usuarios.db').
+        self._criar_tabela()  # Chama o método privado _criar_tabela para criar a tabela
 
     def _criar_tabela(self):
         conn = sqlite3.connect(self.db_name)

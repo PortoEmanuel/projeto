@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        section, li, h3 {
+            padding: 10px;
+
+            border: solid 1px black;
+        }
+
+        h1 {
+            font-size: 15px;
+            color: gray;
+            
+            
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h1>play.py</h1>
+        <h5><a href="readme.html">/projeto</a></h5>
+
+        <span>
+            <p>O script main.py é um programa que oferece uma interface de linha de comando para interagir com a classe CadastroUsuario, permitindo ao usuário adicionar, consultar, listar e remover usuários de um banco de dados.</p>
+                <h3>1. Importação do Módulo</h3>
+                <pre class="code"><code>
+                    from utils.utilits import CadastroUsuario
+                </code></pre>
+                    <p><li>from utils.utilits import CadastroUsuario: Importa a classe CadastroUsuario do módulo utilits, que está localizado no pacote utils. Isso permite que você utilize a classe CadastroUsuario no seu script principal.</li></p>
+        </span>
+        <span>
+            <h3>2. Definição da Função main</h3>
+            <pre><code>
+                def main():
+                    print('BEM VINDO AO CADASTRO DE USÚARIOS!')
+                    opcao = input('Iniciar Aplicativo?? [s][n]: ')
+                    
+                    if opcao.lower() == 's':
+                        print('-------------------------')
+                        print('Iniciando o aplicativo...')
+                        print('-------------------------')
+                        cadastro = CadastroUsuario()
+            </code></pre>
+            <p>
+                <li>def main():: Define a função principal main, que é o ponto de entrada do programa.</li>
+                <li>print('BEM VINDO AO CADASTRO DE USÚARIOS!'): Exibe uma mensagem de boas-vindas.</li>
+                <li>opcao = input('Iniciar Aplicativo?? [s][n]: '): Solicita ao usuário que escolha se deseja iniciar o aplicativo ou não.</li>
+                <li>if opcao.lower() == 's':: Verifica se a opção fornecida pelo usuário é 's' (sim). O método .lower() garante que a comparação não seja sensível a maiúsculas/minúsculas.</li>
+                <li>print('Iniciando o aplicativo...'): Exibe uma mensagem indicando que o aplicativo está sendo iniciado.</li>
+                <li>cadastro = CadastroUsuario(): Cria uma instância da classe CadastroUsuario, o que permite usar os métodos para gerenciar usuários.</li>
+            </p>
+        </span>
+        <span>
+            <h3>3. Menu de Opções</h3>
+            <pre><code>
+                while True:
+                    print("\nMenu:")
+                    print('-------------------------')
+                    print("1. Adicionar usuário")
+                    print("2. Retornar usuário")
+                    print("3. Listar todos os usuários")
+                    print("4. Remover usuário")
+                    print("5. Sair")
+        
+                    escolha = input("Escolha uma opção: ")
+            </code></pre>
+            <p>
+                <li>while True:: Inicia um loop que continuará executando até que o usuário escolha sair.</li>
+                <li>print("\nMenu:"): Exibe o cabeçalho do menu.</li>
+                <li>print("1. Adicionar usuário"): Exibe a opção para adicionar um usuário.</li>
+                <li>print("2. Retornar usuário"): Exibe a opção para retornar informações de um usuário com base no email.</li>
+                <li>print("3. Listar todos os usuários"): Exibe a opção para listar todos os usuários cadastrados.</li>
+                <li>print("4. Remover usuário"): Exibe a opção para remover um usuário com base no email.</li>
+                <li>print("5. Sair"): Exibe a opção para sair do aplicativo.</li>
+                <li>escolha = input("Escolha uma opção: "): Solicita ao usuário que escolha uma opção do menu.</li>
+        </span>
+        <span>
+            <h3>4. Processamento das Opções do Menu</h3>
+            <pre><code>
+                if escolha == '1':
+                    nome = input("Digite o nome do usuário: ")
+                    email = input("Digite o email do usuário: ")
+                    idade = input("Digite a idade do usuário (opcional): ")
+                    bio = input("Digite a bio do usuário (opcional): ")
+                    
+                    idade = int(idade) if idade else None
+                    cadastro.adicionar_usuario(nome, email, idade, bio)
+            </code></pre>
+            <p>
+                <li>if escolha == '1':: Se a escolha do usuário for 1 (adicionar usuário):</li>
+                <li>nome = input("Digite o nome do usuário: "): Solicita o nome do usuário.</li>
+                <li>email = input("Digite o email do usuário: "): Solicita o email do usuário.</li>
+                <li>idade = input("Digite a idade do usuário (opcional): "): Solicita a idade do usuário (opcional).</li>
+                <li>bio = input("Digite a bio do usuário (opcional): "): Solicita a bio do usuário (opcional).</li>
+                <li>idade = int(idade) if idade else None: Converte a idade para um inteiro se fornecida; caso contrário, define como None.</li>
+                <li>cadastro.adicionar_usuario(nome, email, idade, bio): Chama o método adicionar_usuario para adicionar o usuário ao banco de dados.</li>
+            </p>
+            <pre><code>
+                elif escolha == '2':
+                    email = input("Digite o email do usuário para consulta: ")
+                    print(cadastro.retornar_usuario(email))
+            </code></pre>
+            <p>
+                <li>elif escolha == '2':: Se a escolha do usuário for 2 (retornar usuário):</li>
+                <li>email = input("Digite o email do usuário para consulta: "): Solicita o email do usuário.</li>
+                <li>print(cadastro.retornar_usuario(email)): Chama o método retornar_usuario para buscar e exibir as informações do usuário com base no email.</p></li>
+                <pre><code>
+                    elif escolha == '3':
+                        usuarios = cadastro.listar_usuarios()
+                        if usuarios:
+                            print("\nLista de Usuários:")
+                            for usuario in usuarios:
+                                print(usuario)
+                        else:
+                            print("Nenhum usuário encontrado.")
+                </code></pre>
+                <p>
+                    <li>elif escolha == '3':: Se a escolha do usuário for 3 (listar todos os usuários):</li>
+                    <li>usuarios = cadastro.listar_usuarios(): Chama o método listar_usuarios para obter a lista de usuários.</li>
+                    <li>if usuarios:: Verifica se há usuários na lista.</li>
+                    <li>print("\nLista de Usuários:"): Exibe um cabeçalho para a lista de usuários.</li>
+                    <li>for usuario in usuarios:: Itera sobre a lista de usuários e imprime cada um.</li>
+                    <li>else:: Se não houver usuários, exibe uma mensagem indicando que nenhum usuário foi encontrado.</li>
+                </p>
+                <pre><code>
+                    elif escolha == '4':
+                        email = input("Digite o email do usuário que deseja remover: ")
+                        cadastro.remover_usuario(email)
+                </code></pre>
+                <p>
+                    <li>elif escolha == '4':: Se a escolha do usuário for 4 (remover usuário):</li>
+                    <li>email = input("Digite o email do usuário que deseja remover: "): Solicita o email do usuário a ser removido.</li>
+                    <li>cadastro.remover_usuario(email): Chama o método remover_usuario para remover o usuário do banco de dados.</li>
+                </p>
+                <pre><code>
+                    elif escolha == '5':
+                        print("Saindo...")
+                        break
+                </code></pre>
+                <p>
+                    <li>elif escolha == '5':: Se a escolha do usuário for 5 (sair):</li>
+                    <li>print("Saindo..."): Exibe uma mensagem de saída.</li>
+                    <li>break: Sai do loop while, encerrando o programa.</li>
+                </p>
+                <pre><code>
+                    else:
+                        print("Opção inválida. Tente novamente.")
+                </code></pre>
+                <p>
+                    <li>else:: Para qualquer outra escolha que não seja válida, exibe uma mensagem informando que a opção é inválida e solicita que o usuário tente novamente.</li>
+                </p>
+                <span>
+                    <h3>5. Execução do Script</h3>
+                    <pre><code>
+                        if __name__ == "__main__":
+                            main()
+                    </code></pre>
+                    <p>
+                        <li>if __name__ == "__main__":: Garante que a função main só será chamada se o script for executado diretamente, e não se for importado como um módulo em outro script.</li>
+                        <li>main(): Chama a função main para iniciar o programa.</li>
+                    </p>
+                </span>
+                <span>
+                    <h3>Resumo</h3>
+                    <p>Este script oferece uma interface de linha de comando para interagir com a classe CadastroUsuario. O usuário pode adicionar, consultar, listar e remover usuários do banco de dados. A função main controla o fluxo do programa, exibindo um menu de opções e processando a entrada do usuário em um loop até que o usuário escolha sair.</p>
+                </span>
+                
+        </span>
+    </section>
+</body>
+</html>

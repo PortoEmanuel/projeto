@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        section, li, h3 {
+            padding: 10px;
+
+            border: solid 1px black;
+        }
+
+        h1 {
+            font-size: 15px;
+            color: gray;
+            
+            
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h1>setup_db.py</h1>
+        <h5><a href="readme.html">/projeto</a></h5>
+        <span>
+            <p>É um script Python que cria um banco de dados SQLite e define uma tabela de usuários. Vou explicar cada seção passo a passo:</p>
+                <h3>1. Importaçõe</h3>
+                <pre class="code"><code>
+                    import sqlite3
+                    import os
+                </code></pre>
+                    <p><li>import sqlite3: Importa o módulo sqlite3, que permite a interação com bancos de dados SQLite.</li>
+                    <li>import os: Importa o módulo os, que fornece uma maneira de interagir com o sistema operacional, por exemplo, para manipulação de arquivos.</li></p>
+        </span>
+        <span>
+            <h3>2. Definição da Função criar_banco</h3>
+            <pre><code>
+                def criar_banco():
+                    db_name = 'usuarios.db'
+                    if os.path.exists(db_name):
+                        os.remove(db_name)
+                
+                    conn = sqlite3.connect(db_name)
+                    cursor = conn.cursor()
+                
+                    # Cria a tabela de usuários com os novos campos
+                    cursor.execute('''
+                    CREATE TABLE IF NOT EXISTS usuarios (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        nome TEXT NOT NULL,
+                        email TEXT NOT NULL UNIQUE,
+                        idade INTEGER,
+                        bio TEXT
+                    )
+                    ''')
+                
+                    conn.commit()
+                    conn.close()
+            </code></pre>
+            <p>
+                <li>def criar_banco():: Define a função criar_banco. Esta função será responsável por criar o banco de dados e a tabela.</li>
+                <li>db_name = 'usuarios.db': Define o nome do arquivo do banco de dados SQLite. Neste caso, o banco de dados será chamado usuarios.db.</li>
+                <li>if os.path.exists(db_name):: Verifica se o arquivo do banco de dados já existe no sistema de arquivos.</li>
+                <li>os.remove(db_name): Se o arquivo do banco de dados existir, ele é removido. Isso é útil para garantir que o banco de dados seja recriado do zero.</li>
+                <li>conn = sqlite3.connect(db_name): Cria uma conexão com o banco de dados SQLite. Se o banco de dados não existir, ele será criado.</li>
+                <li>cursor = conn.cursor(): Cria um cursor para executar comandos SQL no banco de dados.</li>
+                <li>cursor.execute(''' ... '''): Executa um comando SQL para criar a tabela usuarios se ela não existir.</li>
+                <li>id INTEGER PRIMARY KEY AUTOINCREMENT: Cria uma coluna id que é uma chave primária única para cada registro e é auto-incrementada.</li>
+                <li>nome TEXT NOT NULL: Cria uma coluna nome que não pode ser nula.</li>
+                <li>email TEXT NOT NULL UNIQUE: Cria uma coluna email que não pode ser nula e deve ser única.</li>
+                <li>idade INTEGER: Cria uma coluna idade que pode armazenar um valor inteiro.</li>
+                <li>bio TEXT: Cria uma coluna bio para armazenar uma biografia em formato de texto.</li>
+                <li>conn.commit(): Salva (commit) todas as alterações feitas no banco de dados.</li>
+                <li>conn.close(): Fecha a conexão com o banco de dados.</li>
+            </p>
+        </span>
+        <span>
+            <h3>3. Execução do Script
+            </h3>
+            <pre><code>
+                if __name__ == "__main__":
+                    criar_banco()
+            </code></pre>
+            <p>
+                <li>if __name__ == "__main__":: Este bloco garante que o código dentro dele só será executado se o script for executado diretamente, e não quando for importado como um módulo em outro script.</li>
+
+                <li>criar_banco(): Chama a função criar_banco para criar o banco de dados e a tabela.</li>
+        </span>
+        <span>
+            <h3>Resumo</h3>
+            <p>
+                <li>O script verifica se o banco de dados já existe e o remove se necessário.</li>
+                <li>Em seguida, cria um novo banco de dados e define uma tabela usuarios com campos específicos.</li>
+                <li>Utiliza as bibliotecas sqlite3 para manipulação do banco de dados e os para manipulação do sistema de arquivos.</li>
+                <li>O script é projetado para ser executado diretamente, criando ou recriando o banco de dados conforme necessário.</li>
+            </p>
+        </span>
+    </section>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        section, li, h3 {
+            padding: 10px;
+
+            border: solid 1px black;
+        }
+
+        h1 {
+            font-size: 15px;
+            color: gray;
+            
+            
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h1>utilits.py</h1>
+        <h5><a href="readme.html">/projeto</a></h5>
+
+        <span>
+            <p>O código define uma classe CadastroUsuario que gerencia um banco de dados SQLite para cadastrar e manipular informações de usuários.</p>
+                <h3>1. Importação e Definição da Classe</h3>
+                <pre class="code"><code>
+                import sqlite3
+
+                class CadastroUsuario: 
+                    def __init__(self, db_name='usuarios.db'):
+                        self.db_name = db_name 
+                        self._criar_tabela()
+                </code></pre>
+                    <p><li>import sqlite3: Importa a biblioteca SQLite para manipulação de banco de dados.</li>
+                    <li>class CadastroUsuario: Define a classe CadastroUsuario.</li>                    
+                    <li>def __init__(self, db_name='usuarios.db'): O método construtor que inicializa a classe. Define o nome do banco de dados (padrão é 'usuarios.db').</li>                    
+                    <li>self._criar_tabela(): Chama o método privado _criar_tabela para criar a tabela usuarios no banco de dados quando uma instância da classe é criada</li></p>
+        </span>
+        <span>
+            <h3>2. Criação da Tabela</h3>
+            <pre><code>
+                def _criar_tabela(self):
+                    conn = sqlite3.connect(self.db_name)
+                    cursor = conn.cursor()
+                    cursor.execute('''
+                    CREATE TABLE IF NOT EXISTS usuarios (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        nome TEXT NOT NULL,
+                        email TEXT NOT NULL UNIQUE,
+                        idade INTEGER,
+                        bio TEXT
+                    )
+                    ''')
+                    conn.commit()
+                    conn.close()
+            </code></pre>
+            <p>
+                <li>conn = sqlite3.connect(self.db_name): Conecta ao banco de dados especificado.</li>
+                <li>cursor = conn.cursor(): Cria um cursor para executar comandos SQL.</li>
+                <li>cursor.execute(...): Executa o comando SQL para criar a tabela usuarios se ela não existir.</li>
+                    <li>id: Coluna de identificação única para cada usuário (auto-incrementada).</li>
+                    <li>nome: Nome do usuário (não pode ser nulo).</li>
+                    <li>email: Email do usuário (não pode ser nulo e deve ser único).</li>
+                    <li>idade: Idade do usuário (opcional).</li>
+                    <li>bio: Biografia do usuário (opcional).</li>
+                <li>conn.commit(): Confirma as mudanças no banco de dados.</li>
+                <li>conn.close(): Fecha a conexão com o banco de dados.</li>
+            </p>
+        </span>
+        <span>
+            <h3>3. Adicionar Usuário</h3>
+            <pre><code>
+                def adicionar_usuario(self, nome, email, idade=None, bio=None):
+                    conn = sqlite3.connect(self.db_name)
+                    cursor = conn.cursor()
+                    try:
+                        cursor.execute('''
+                        INSERT INTO usuarios (nome, email, idade, bio) VALUES (?, ?, ?, ?)
+                        ''', (nome, email, idade, bio))
+                        conn.commit()
+                        print(f"Usuário {nome} cadastrado com sucesso.")
+                    except sqlite3.IntegrityError:
+                        print(f"Usuário com o email {email} já está cadastrado.")
+                    conn.close()
+            </code></pre>
+            <p>
+                <li>conn = sqlite3.connect(self.db_name): Conecta ao banco de dados.</li>
+                <li>cursor = conn.cursor(): Cria um cursor.</li>
+                <li>cursor.execute(...): Executa o comando SQL para inserir um novo usuário na tabela.</li>
+                <li>Usa ? como placeholders para os valores a serem inseridos.</li>
+                <li>conn.commit(): Confirma a inserção no banco de dados.</li>
+                <li>print(f"Usuário {nome} cadastrado com sucesso."): Mensagem de sucesso.</li>
+                <li>except sqlite3.IntegrityError: Captura erros de integridade, como quando o email já existe.</li>
+                <li>conn.close(): Fecha a conexão com o banco de dados.</li>
+            </p>
+        </span>
+        <span>
+            <h3>4. Retornar Usuário</h3>
+            <pre><code>
+                def retornar_usuario(self, email):
+                    conn = sqlite3.connect(self.db_name)
+                    cursor = conn.cursor()
+                    cursor.execute('SELECT nome, email, idade, bio FROM usuarios WHERE email = ?', (email,))
+                    user = cursor.fetchone()
+                    conn.close()
+                
+                    if user:
+                        return f"Nome: {user[0]}, Email: {user[1]}, Idade: {user[2]}, Bio: {user[3]}"
+                    else:
+                        return "Usuário não encontrado."
+            </code></pre>
+            <p>
+                <li>conn = sqlite3.connect(self.db_name): Conecta ao banco de dados.</li>
+                <li>cursor = conn.cursor(): Cria um cursor.</li>
+                <li>cursor.execute(...): Executa o comando SQL para buscar um usuário com o email fornecido.</li>
+                <li>user = cursor.fetchone(): Obtém a primeira linha do resultado.</li>
+                <li>conn.close(): Fecha a conexão com o banco de dados.</li>
+                <li>Se user é encontrado, retorna uma string formatada com as informações do usuário; caso contrário, retorna "Usuário não encontrado."</li>
+            </p>
+        </span>
+        <span>
+            <h3>5. Listar Usuários</h3>
+            <pre><code>
+                def listar_usuarios(self):
+                    conn = sqlite3.connect(self.db_name)
+                    cursor = conn.cursor()
+                    cursor.execute('SELECT nome FROM usuarios')
+                    usuarios = cursor.fetchall()
+                    conn.close()
+
+                    if usuarios:
+                        return [usuario[0] for usuario in usuarios]
+                    else:
+                        return []
+            </code></pre>
+            <p>
+                <li>conn = sqlite3.connect(self.db_name): Conecta ao banco de dados.</li>
+                <li>cursor = conn.cursor(): Cria um cursor.</li>
+                <li>cursor.execute(...): Executa o comando SQL para selecionar todos os nomes de usuários.</li>
+                <li>usuarios = cursor.fetchall(): Obtém todas as linhas do resultado.</li>
+                <li>conn.close(): Fecha a conexão com o banco de dados.</li>
+                <li>Se há usuários, retorna uma lista com os nomes; caso contrário, retorna uma lista vazia.</li>
+            </p>
+        </span>
+        <span>
+            <h3>6. Remover Usuário</h3>
+            <pre><code>
+                def remover_usuario(self, email):
+                    conn = sqlite3.connect(self.db_name)
+                    cursor = conn.cursor()
+                    cursor.execute('DELETE FROM usuarios WHERE email = ?', (email,))
+                    conn.commit()
+                    conn.close()
+
+                    if cursor.rowcount > 0:
+                        print(f"Usuário com o email {email} foi removido com sucesso.")
+                    else:
+                        print(f"Usuário com o email {email} não encontrado.")
+            </code></pre>
+            <p>
+                <li>conn = sqlite3.connect(self.db_name): Conecta ao banco de dados.</li>
+                <li>cursor = conn.cursor(): Cria um cursor.</li>
+                <li>cursor.execute(...): Executa o comando SQL para deletar um usuário com o email fornecido.</li>
+                <li>conn.commit(): Confirma a exclusão no banco de dados.</li>
+                <li>conn.close(): Fecha a conexão com o banco de dados.</li>
+                <li>Se cursor.rowcount é maior que 0, imprime uma mensagem de sucesso; caso contrário, imprime que o usuário não foi encontrado.</li>
+            </p>
+        </span>
+    </section>
+</body>
+</html>
