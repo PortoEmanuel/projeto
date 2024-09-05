@@ -1,43 +1,46 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+# Implantar conteúdo estático nas páginas
+nome: Implantar conteúdo estático nas páginas
 
-on:
-  push:
-    branches: ["main"]
-  workflow_dispatch:
+sobre:
+  empurrar:
+    ramos: ["main"]  # Ajuste se estiver usando uma branch diferente
+  fluxo de trabalho_despacho:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+permissões:
+  conteúdo: ler
+  páginas: escrever
+  id-token: escrever
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+simultaneidade:
+  grupo: "páginas"
+  cancelamento em andamento: falso
 
-jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+empregos:
+  implantar:
+    ambiente:
+      nome: github-pages
+      URL: ${{ etapas.implantação.saídas.página_url }}
+    executa em: ubuntu-latest
+    passos:
+      - nome: Checkout
+        usos: actions/checkout@v4
 
-      - name: Move files
-        run: |
+      - nome: Mover arquivos
+        correr: |
           mkdir -p public
           cp -r templates/* public/
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+        
+      - nome: Adicionar .nojekyll
+        run: touch public/.nojekyll  # Cria um arquivo .nojekyll para evitar a construção com Jekyll
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'public'
+      - nome: Configurar páginas
+        usos: actions/configure-pages@v5
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - nome: Carregar artefato
+        usos: actions/upload-pages-artifact@v3
+        com:
+          caminho: 'public'
+
+      - nome: Implantar nas páginas do GitHub
+        id: implantação
+        usos: actions/deploy-pages@v4
